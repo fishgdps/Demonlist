@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+        <head>
+                <meta
+                        http-equiv="content-type"
+                        content="text/html; charset=UTF-8"
+                />
+                <!-- META -->
+                <meta charset="UTF-8" />
+                <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1"
+                />
+                <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+                <!-- Name -->
+                <title>FishGDPS Demonlist</title>
+
+                <!-- AlwaysImport -->
+                <link href="src/styles.css" rel="stylesheet" />
+                <script src="src/pkgdefaults/inject.js" type="module"></script>
+
+                <!-- External APIs -->
+                <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+        </head>
+        <body>
+                <div class="container">
+                        <section id="demonList"></section>
+                </div>
+
+                <div id="videoModal">
+                        <div class="modal-content" id="modal-prop-selector">
+                                <iframe
+                                        id="videoFrame"
+                                        src=""
+                                        allow="autoplay; encrypted-media"
+                                        allowfullscreen=""
+                                        title="YouTube video player"
+                                ></iframe>
+                        </div>
+                </div>
+
+                <template id="template-victor">
+                        <p class="pb-2 text-sm text-gray-400">Victors:</p>
+                        <div class="victor-container"></div>
+                </template>
+
+                <template id="template-victor-none">
+                        <p class="py-2 text-gray-400" id="template-text">
+                                No players have completed this demon.
+                        </p>
+                </template>
+
+                <template id="template-victor-loading">
+                        <p class="py-2 text-gray-400">Loading victors...</p>
+                </template>
+
+                <template id="template-player-entry">
+                        <a
+                                class="cursor-pointer demon-entry p-6 mb-6 flex items-center gap-6"
+                                id="player-linker"
+                        >
+                                <img
+                                        class="rounded-full w-24 h-24 border border-white/20 shadow-lg"
+                                        alt="thumbnail"
+                                />
+
+                                <div class="flex-grow relative">
+                                        <div
+                                                class="relative inline-flex items-center gap-2"
+                                        >
+                                                <h1
+                                                        class="text-2xl font-semibold text-white"
+                                                        id="text-playername"
+                                                >
+                                                        ${player.name}
+                                                </h1>
+
+                                                <span
+                                                        class="relative inline-flex items-center"
+                                                        id="badge-developer"
+                                                >
+                                                        <img
+                                                                src="src/svg/developer.svg"
+                                                                alt="Developer"
+                                                                class="svg-retexture"
+                                                        />
+                                                </span>
+
+                                                <span
+                                                        class="relative inline-flex items-center gap-2"
+                                                        id="badge-moderator"
+                                                >
+                                                        <img
+                                                                src="src/svg/moderator.svg"
+                                                                alt="Moderator"
+                                                                class="svg-retexture"
+                                                        />
+                                                </span>
+
+                                                <span
+                                                        class="relative inline-flex items-center gap-2"
+                                                        id="badge-top-player"
+                                                >
+                                                        <img
+                                                                src="src/svg/top-player.svg"
+                                                                alt="Top Player"
+                                                                class="svg-retexture"
+                                                        />
+                                                </span>
+                                        </div>
+
+                                        <br />
+
+                                        <span
+                                                class="inline-flex flex-wrap gap-2 mt-3"
+                                        >
+                                                <span
+                                                        class="info-bubble text-white"
+                                                        id="text-data-points"
+                                                        >${points}</span
+                                                >
+                                                <span
+                                                        class="info-bubble text-white"
+                                                        id="text-data-verifications"
+                                                        >${verifs}
+                                                </span>
+                                        </span>
+                                </div>
+                        </a>
+                </template>
+
+                <template id="template-demon-entry">
+                        <div class="demon-entry group relative">
+                                <div
+                                        class="custom-tooltip"
+                                        data-demon-id="344"
+                                        data-loaded="false"
+                                >
+                                        Loading victors...
+                                </div>
+
+                                <div
+                                        class="demon-main-content flex items-center w-full"
+                                >
+                                        <div class="demon-video">
+                                                <div
+                                                        class="video-wrapper"
+                                                        data-video-id="JgT7tASdLI4"
+                                                >
+                                                        <img
+                                                                src="http://i3.ytimg.com/vi/JgT7tASdLI4/hqdefault.jpg"
+                                                                alt="SOG Carbon Chaos video thumbnail"
+                                                                loading="lazy"
+                                                                decoding="async"
+                                                        />
+                                                </div>
+                                        </div>
+                                        <div class="demon-info">
+                                                <p class="demon-name">
+                                                        (#1) SOG Carbon Chaos
+                                                </p>
+                                                <p class="demon-creator">
+                                                        By Evnos<br />
+                                                        Verified by Kaza
+                                                </p>
+                                        </div>
+                                        <div
+                                                class="flex flex-col items-end justify-center p-2 rounded-md gap-1 w-fit ml-auto"
+                                        >
+                                                <div
+                                                        class="info-bubble"
+                                                        id="text-data-difficulty"
+                                                >
+                                                        Extreme Demon
+                                                </div>
+                                                <div
+                                                        class="info-bubble"
+                                                        id="text-data-points"
+                                                >
+                                                        350 Points
+                                                </div>
+                                                <div
+                                                        class="info-bubble"
+                                                        id="text-data-id"
+                                                >
+                                                        ID: 344
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </template>
+
+                <script type="module" src="src/scripts/list.js"></script>
+        </body>
+</html>

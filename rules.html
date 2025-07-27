@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+        <head>
+                <meta
+                        http-equiv="content-type"
+                        content="text/html; charset=UTF-8"
+                />
+                <!-- META -->
+                <meta charset="UTF-8" />
+                <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1"
+                />
+                <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+                <!-- Name -->
+                <title>FishGDPS Demonlist</title>
+
+                <!-- AlwaysImport -->
+                <link href="src/styles.css" rel="stylesheet" />
+                <script src="src/pkgdefaults/inject.js" type="module"></script>
+
+                <!-- External APIs -->
+                <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+        </head>
+        <body>
+                <div class="container">
+                        <div
+                                class="entry-background group relative visible pt-5"
+                        >
+                                <h1
+                                        class="text-3xl font-semibold mb-6 border-b border-[#ffffff20] pb-3"
+                                >
+                                        Rules
+                                </h1>
+                                <ol
+                                        class="list-decimal list-inside space-y-3 mb-6 text-sm leading-relaxed"
+                                >
+                                        <li>
+                                                A verification or completion
+                                                requires a video with audible
+                                                clicks or taps.
+                                        </li>
+                                        ^ Any completion on an Android phone
+                                        with the "Show Taps" option is exempt
+                                        from this rule.
+                                        <li>
+                                                Completions and verifications
+                                                must be accomplished on
+                                                <span class="font-semibold"
+                                                        >FishGDPS</span
+                                                >
+                                                to be accepted. 2.2 completions
+                                                will not be accepted.
+                                        </li>
+                                        <li>
+                                                No levels named "Tuff Mango" or
+                                                anything similar are allowed on
+                                                the list.
+                                        </li>
+                                        <li>
+                                                Levels require video proof or
+                                                firsthand experience from a list
+                                                moderator (including the list
+                                                moderator watching it on a
+                                                screenshare).
+                                        </li>
+                                        ^ Uploads must be sent through YouTube
+                                        to count as proof. Unlisted videos are
+                                        allowed aslong as "Embed".
+                                        <li>
+                                                Levels cannot be buffed or
+                                                altered gameplay wise after
+                                                being added to the list.
+                                        </li>
+                                        <li>
+                                                Any record submitted before a
+                                                new rule was added does not have
+                                                the rule apply to it unless
+                                                stated otherwise.
+                                        </li>
+                                </ol>
+                                <p>That's it! Have fun &#x3a;&#x29;</p>
+                        </div>
+                </div>
+
+                <script>
+                        // Change Taskbar //
+                        const taskBar = setInterval(() => {
+                                if (document.querySelector("#SubRul"))
+                                        document.querySelector(
+                                                "#SubRul",
+                                        ).classList.add("active");
+                                clearInterval(taskBar);
+                        }, 100);
+                </script>
+        </body>
+</html>

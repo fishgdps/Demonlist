@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+        <head>
+                <meta
+                        http-equiv="content-type"
+                        content="text/html; charset=UTF-8"
+                />
+                <!-- META -->
+                <meta charset="UTF-8" />
+                <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1"
+                />
+                <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+                <!-- Name -->
+                <title>FishGDPS Demonlist</title>
+
+                <!-- AlwaysImport -->
+                <link href="src/styles.css" rel="stylesheet" />
+                <script src="src/pkgdefaults/inject.js" type="module"></script>
+
+                <!-- External APIs -->
+                <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+        </head>
+        <body>
+                <!-- DISABLED FOR ISSUES -->
+
+                <div class="flex items-center justify-center px-4">
+                        <div
+                                class="container max-w-md w-full backdrop-blur-md bg-white/5 border border-white/10 shadow-xl rounded-2xl p-8 clean"
+                        >
+                                <div class="group relative visible pt-2">
+                                        <h1
+                                                class="text-3xl font-semibold mb-6 pb-3 text-center !text-[#c9d1d9]"
+                                        >
+                                                Login
+                                        </h1>
+                                </div>
+
+                                <form id="loginForm" class="space-y-4">
+                                        <input
+                                                type="email"
+                                                id="email"
+                                                placeholder="Email"
+                                                required
+                                                class="custom-button"
+                                        />
+
+                                        <input
+                                                type="password"
+                                                id="password"
+                                                placeholder="Password"
+                                                required
+                                                class="custom-button"
+                                        />
+
+                                        <button
+                                                type="submit"
+                                                class="w-full py-3 bg-white/10 hover:bg-white/20 rounded-md font-semibold text-lg shadow-md transition duration-300 !text-[#c9d1d9]"
+                                        >
+                                                Login
+                                        </button>
+
+                                        <div class="cc-hr !text-[#c9d1d9]x">
+                                                or
+                                        </div>
+
+                                        <div
+                                                class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 text-center !text-[#c9d1d9]"
+                                        >
+                                                <span class="relative group">
+                                                        <a
+                                                                class="cursor-pointer"
+                                                        >
+                                                                Create Account
+                                                                <!-- DISABLED FOR ISSUES-->
+                                                        </a>
+                                                        <div
+                                                                class="custom-tooltip"
+                                                                data-demon-id="344"
+                                                                data-loaded="true"
+                                                        >
+                                                                <div
+                                                                        class="text-left"
+                                                                >
+                                                                        If your
+                                                                        account
+                                                                        already
+                                                                        appears<br />
+                                                                        on the
+                                                                        Leaderboard,
+                                                                        send a
+                                                                        DM to
+                                                                        @seabeg
+                                                                        on
+                                                                        Discord
+                                                                        to have
+                                                                        access
+                                                                        to the
+                                                                        leaderboard
+                                                                        account.
+                                                                </div>
+                                                        </div>
+                                                </span>
+
+                                                <span>&#8226;</span>
+
+                                                <a class="cursor-pointer">
+                                                        Reset Password
+                                                        <!-- DISABLED FOR ISSUES -->
+                                                </a>
+                                        </div>
+                                </form>
+                        </div>
+                </div>
+
+                <script src="src/scripts/login.js"></script>
+                <!-- DISABLED FOR ISSUES -->
+
+                <script>
+                        // Change Taskbar //
+                        const taskBar = setInterval(() => {
+                                if (document.querySelector("#account"))
+                                        document.querySelector(
+                                                "#account",
+                                        ).classList.add("active");
+                                clearInterval(taskBar);
+                        }, 100);
+                </script>
+        </body>
+</html>
