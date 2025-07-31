@@ -1,6 +1,13 @@
 import getRoundedPoints from "./getRoundedPoints.js";
-import roles from "./src/roles.json" assert { type: "json" };
+let roles = {}
 
+async function loadRoles() {
+	const res = await fetch('./src/roles.json');
+        roles = await res.json();
+	console.log(roles);
+}
+
+loadRoles();
 // Change Taskbar //
 const taskBar = setInterval(() => {
         if (document.querySelector("#account"))
