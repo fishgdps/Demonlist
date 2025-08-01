@@ -241,7 +241,7 @@ function renderList() {
                 demons.forEach((demon, index) => {
                         renderDemon(demon, demonList)
                 });
-        } elseif (IsChallenges) {
+        } else if (IsChallenges) {
 		challenges.forEach((challenge, index) => {
                         renderDemon(challenge, demonList)
                 });
