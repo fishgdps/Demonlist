@@ -25,6 +25,7 @@ firebase.initializeApp(firebaseConfig);
 let IsDemon = true;
 
 let demons = [];
+let challenges = [];
 let players = [];
 
 let id = 1;
@@ -37,6 +38,15 @@ function fetchData() {
                 .then((snapshot) => {
                         const data = snapshot.val() || {};
                         demons = Object.values(data).sort(
+                                (a, b) => a.rank - b.rank,
+                        );
+                        updateTabUI();
+                });
+	db.ref("challenges")
+                .once("value")
+                .then((snapshot) => {
+                        const data = snapshot.val() || {};
+                        challenges = Object.values(data).sort(
                                 (a, b) => a.rank - b.rank,
                         );
                         updateTabUI();
@@ -231,7 +241,11 @@ function renderList() {
                 demons.forEach((demon, index) => {
                         renderDemon(demon, demonList)
                 });
-        } else {
+        } elseif (IsChallenges) {
+		challenges.forEach((challenge, index) => {
+                        renderDemon(challenge, demonList)
+                });
+	} else {
                 const sortedPlayers = sortPlayersByPoints(players);
 
                 sortedPlayers.forEach((player, _) => {
@@ -268,6 +282,7 @@ function updateTabUI() {
         )?.classList.add("active");
 
         IsDemon = hash === "#demons";
+	IsChallenges = hash === "#challenges";
 
         renderList();
 }
