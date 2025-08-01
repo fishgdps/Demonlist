@@ -24,7 +24,7 @@ const db = firebase.database();
 
                 let htmlPath = "src/pkgdefaults/pkgdefaults.html";
 
-                if (user) {
+                /*if (user) {
                         const uid = user.uid;
 
                         const modRef = firebase
@@ -37,7 +37,7 @@ const db = firebase.database();
                         } else {
                                 htmlPath = "src/pkgdefaults/localpkg.html";
                         }
-                }
+                }*/
 
                 const res = await fetch(htmlPath);
                 const html = await res.text();
