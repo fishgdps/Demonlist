@@ -114,7 +114,7 @@ function renderDemon(demon, demonList) {
         clone.addEventListener("mouseenter", async () => {
                 const tooltip =
                         clone.querySelector(
-                                "[data-demon-id]",
+                                ".custom-tooltip",
                         );
                 const alreadyLoaded =
                         tooltip.getAttribute("data-loaded");
