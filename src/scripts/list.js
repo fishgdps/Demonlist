@@ -97,7 +97,7 @@ function renderDemon(demon, demonList) {
         videoWrapper.dataset.videoId = demon.videoId;
         
         const img = clone.querySelector('.video-wrapper img');
-        img.src = `http://i3.ytimg.com/vi/${demon.videoId}/hqdefault.jpg`;
+        img.src = `https://i3.ytimg.com/vi/${demon.videoId}/hqdefault.jpg`;
         img.alt = `${demon.name} video thumbnail`;
         
         const demonName = clone.querySelector('.demon-name');
