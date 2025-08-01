@@ -23,6 +23,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 let IsDemon = true;
+let IsChallenges = false;
 
 let demons = [];
 let challenges = [];
