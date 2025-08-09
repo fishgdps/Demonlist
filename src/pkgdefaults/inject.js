@@ -22,9 +22,14 @@ const db = firebase.database();
                                 });
                 });
 
-                let htmlPath = "src/pkgdefaults/pkgdefaults.html";
+                const res = await fetch("src/pkgdefaults/nav.html");
+                const navHTML = await res.text();
 
-                /*if (user) {
+                const container = document.createElement("div");
+                container.innerHTML = navHTML;
+                container.innerHTML += `<div id="bg-visual"></div>`;
+
+                if (user) {
                         const uid = user.uid;
 
                         const modRef = firebase
@@ -33,18 +38,15 @@ const db = firebase.database();
                         const snapshot = await modRef.once("value");
 
                         if (snapshot.exists() && snapshot.val() === true) {
-                                htmlPath = "src/pkgdefaults/moderatorpkg.html";
                         } else {
-                                htmlPath = "src/pkgdefaults/localpkg.html";
+                                container.querySelector("#ModBtn").remove();
                         }
-                }*/
+                } else {
+                        container.querySelector("#ModBtn").remove();
+                        container.querySelector("#SubLvl").remove();
+                        container.querySelector("#SubRul").remove();
+                }
 
-                const res = await fetch(htmlPath);
-                const html = await res.text();
-
-                const container = document.createElement("div");
-                container.innerHTML = html;
-                container.innerHTML += `<div id="bg-visual"></div>`;
                 document.body.insertAdjacentElement("afterbegin", container);
         } catch (err) {
                 console.error("Failed to load navbar:", err);

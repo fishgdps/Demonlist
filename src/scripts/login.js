@@ -14,7 +14,7 @@ const auth = firebase.auth();
 const loginForm = document.getElementById("loginForm");
 const messageP = document.getElementById("message");
 
-window.location.href = 'https://fishgdps.com/offline'
+window.location.href = "https://fishgdps.com/offline";
 
 loginForm.addEventListener("submit", (e) => {
         e.preventDefault();

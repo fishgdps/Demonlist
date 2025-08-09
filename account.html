@@ -25,6 +25,29 @@
                 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
                 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
                 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+                <!-- EMBEDS -->
+                <meta property="og:title" content="FishGDPS Demonlist" />
+                <meta
+                        property="og:description"
+                        content="The official Demonlist of FishGDPS!"
+                />
+                <meta property="og:url" content="https://fishgdps.com/" />
+                <meta
+                        property="og:image"
+                        content="https://fishgdps.com/preview.png"
+                />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="FishGDPS Demonlist" />
+                <meta
+                        name="twitter:description"
+                        content="The official Demonlist of FishGDPS!"
+                />
+                <meta
+                        name="twitter:image"
+                        content="https://example.com/preview.png"
+                />
         </head>
         <body>
                 <div id="bg-visual"></div>
@@ -157,6 +180,11 @@
                                                 >
                                                 <span
                                                         class="info-bubble"
+                                                        id="bubble-completions"
+                                                        >Completions: NaN</span
+                                                >
+                                                <span
+                                                        class="info-bubble"
                                                         id="bubble-verifications"
                                                         >Verifications:
                                                         NaN</span
@@ -164,8 +192,107 @@
                                         </div>
                                 </div>
                         </div>
+
+                        <nav class="demonlist-tabs nav-extras">
+                                <div class="nav-group">
+                                        <a
+                                                href="#Completions"
+                                                class="nav-retext active"
+                                                id="VerLi"
+                                                >Completions</a
+                                        >
+                                        <a
+                                                href="#Verifications"
+                                                class="nav-retext"
+                                                id="CompLi"
+                                                >Verifications</a
+                                        >
+                                </div>
+                                <div class="nav-group">
+                                        <a
+                                                href=""
+                                                class="nav-retext active"
+                                                id="DemonSelector"
+                                                >Demons</a
+                                        >
+                                        <a
+                                                href=""
+                                                class="nav-retext"
+                                                id="ChallengeSelector"
+                                                >Challenges</a
+                                        >
+                                </div>
+                        </nav>
+
+                        <br />
+
+                        <section id="demonList"></section>
                 </div>
 
+                <template id="template-demon-entry">
+                        <div class="demon-entry group relative">
+                                <div
+                                        class="demon-main-content flex items-center w-full"
+                                >
+                                        <div class="demon-video">
+                                                <div
+                                                        class="video-wrapper"
+                                                        data-video-id="JgT7tASdLI4"
+                                                >
+                                                        <img
+                                                                src="http://i3.ytimg.com/vi/JgT7tASdLI4/hqdefault.jpg"
+                                                                alt="SOG Carbon Chaos video thumbnail"
+                                                                loading="lazy"
+                                                                decoding="async"
+                                                        />
+                                                </div>
+                                        </div>
+                                        <div class="demon-info">
+                                                <p class="demon-name">
+                                                        (#1) SOG Carbon Chaos
+                                                </p>
+                                                <p class="demon-creator">
+                                                        By Evnos<br />
+                                                        Verified by Kaza
+                                                </p>
+                                        </div>
+                                        <div
+                                                class="flex flex-col items-end justify-center p-2 rounded-md gap-1 w-fit ml-auto"
+                                        >
+                                                <div
+                                                        class="info-bubble"
+                                                        id="text-data-difficulty"
+                                                >
+                                                        Extreme Demon
+                                                </div>
+                                                <div
+                                                        class="info-bubble"
+                                                        id="text-data-points"
+                                                >
+                                                        350 Points
+                                                </div>
+                                                <div
+                                                        class="info-bubble"
+                                                        id="text-data-id"
+                                                >
+                                                        ID: 344
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </template>
+
                 <script type="module" src="src/scripts/account.js"></script>
+
+                <script>
+                        // Change Taskbar //
+                        const taskBar = setInterval(() => {
+                                if (document.querySelector("#account"))
+                                        document.querySelector(
+                                                "#account",
+                                        ).classList.add("active");
+                                clearInterval(taskBar);
+                        }, 100);
+                </script>
         </body>
 </html>

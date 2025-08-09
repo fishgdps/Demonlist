@@ -401,8 +401,6 @@ header p {
         color: #c9d1d9;
         white-space: nowrap;
 }
-
-/* Tooltip */
 .custom-tooltip {
         position: absolute;
         bottom: 100%;
@@ -425,13 +423,9 @@ header p {
         -webkit-backdrop-filter: blur(15px) saturate(180%);
         transition: transform 200ms ease-out;
 }
-
-/* Show tooltip on hover of the parent */
 .group:hover .custom-tooltip {
         transform: translateX(-50%) scale(1);
 }
-
-/* Tooltip arrow */
 .custom-tooltip::before {
         content: "";
         position: absolute;
@@ -475,6 +469,24 @@ header p {
         box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }
 .svg-retexture {
-  filter: invert(1) brightness(2);
-  -webkit-filter: invert(1) brightness(2);
+        filter: invert(1) brightness(2);
+        -webkit-filter: invert(1) brightness(2);
+}
+.nav-group {
+        display: flex;
+        --tw-space-x-reverse: 0;
+        margin-inline-start: 6;
+        margin-inline-end: 6;
+}
+.nav-extras {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom-width: 1px;
+        border-color: #30363d;
+        margin-bottom: 5;
+}
+.nav-override {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
 }

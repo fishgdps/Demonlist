@@ -1,11 +1,10 @@
 import getRoundedPoints from "./getRoundedPoints.js";
 
-let roles = {}
+let roles = {};
 
 async function loadRoles() {
-	const res = await fetch('./src/roles.json');
+        const res = await fetch("./src/roles.json");
         roles = await res.json();
-	console.log(roles);
 }
 
 loadRoles();
@@ -43,7 +42,7 @@ function fetchData() {
                         );
                         updateTabUI();
                 });
-	db.ref("challenges")
+        db.ref("challenges")
                 .once("value")
                 .then((snapshot) => {
                         const data = snapshot.val() || {};
@@ -76,93 +75,71 @@ function closeVideo() {
         modal.classList.remove("active");
 }
 
-function getUserPoints(data) {
+function getUserPoints(data, normal = true) {
         let returnValue = 0;
         data.forEach((id) => {
-                const index = demons.findIndex((demon) => demon.id === id);
+                let index = 0;
+                if (normal) {
+                        index = demons.findIndex((demon) => demon.id === id);
+                } else {
+                        index = challenges.findIndex(
+                                (demon) => demon.id === id,
+                        );
+                }
                 const rank = index !== -1 ? index + 1 : null;
                 returnValue += getRoundedPoints(rank - 1) || 0;
         });
         return returnValue;
 }
 
-function sortPlayersByPoints(playersArray) {
-        return playersArray.slice().sort((a, b) => {
-                return (
-                        getUserPoints(b.levels?.Demons ?? []) -
-                        getUserPoints(a.levels?.Demons ?? [])
-                );
-        });
+function sortPlayersByPoints(playersArray, normal) {
+        if (normal) {
+                return playersArray.slice().sort((a, b) => {
+                        return (
+                                getUserPoints(b.levels?.Demons ?? [], true) -
+                                getUserPoints(a.levels?.Demons ?? [], true)
+                        );
+                });
+        } else {
+                return playersArray.slice().sort((a, b) => {
+                        return (
+                                getUserPoints(
+                                        b.levels?.Challenges ?? [],
+                                        false,
+                                ) -
+                                getUserPoints(a.levels?.Challenges ?? [], false)
+                        );
+                });
+        }
 }
 
-function renderDemon(demon, demonList) {
-        const template = document.getElementById('template-demon-entry');
-        
+function renderLevel(demon, demonList) {
+        const template = document.querySelector("#template-demon-entry");
+
         const clone = template.content.cloneNode(true);
 
-        const tooltip = clone.querySelector('.custom-tooltip');
+        const tooltip = clone.querySelector(".custom-tooltip");
         tooltip.dataset.demonId = demon.id;
-        tooltip.dataset.loaded = 'false';
-        
-        const videoWrapper = clone.querySelector('.video-wrapper');
+        tooltip.dataset.loaded = "false";
+
+        const videoWrapper = clone.querySelector(".video-wrapper");
         videoWrapper.dataset.videoId = demon.videoId;
-        
-        const img = clone.querySelector('.video-wrapper img');
+
+        const img = clone.querySelector(".video-wrapper img");
         img.src = `https://i3.ytimg.com/vi/${demon.videoId}/hqdefault.jpg`;
         img.alt = `${demon.name} video thumbnail`;
-        
-        const demonName = clone.querySelector('.demon-name');
+
+        const demonName = clone.querySelector(".demon-name");
         demonName.textContent = `${demon.name} (#${demon.rank})`;
-        
-        const demonCreator = clone.querySelector('.demon-creator');
+
+        const demonCreator = clone.querySelector(".demon-creator");
         demonCreator.innerHTML = `By ${demon.creator}<br /> Verified by ${demon.verifier}`;
 
-        clone.querySelector('#text-data-difficulty').textContent = demon.difficulty;
-        clone.querySelector('#text-data-points').textContent = `${getRoundedPoints(demon.rank-1)} Points`;
-        clone.querySelector('#text-data-id').textContent = `ID: ${demon.id}`;
-
-
-        clone.addEventListener("mouseenter", async () => {
-                const tooltip =
-                        clone.querySelector(
-                                ".custom-tooltip",
-                        );
-                const alreadyLoaded =
-                        tooltip.getAttribute("data-loaded");
-                if (alreadyLoaded) return;
-
-                const snapshot = await db
-                        .ref("players")
-                        .once("value");
-                const playersData = snapshot.val() || {};
-                const demonId = parseInt(
-                        tooltip.getAttribute("data-demon-id"),
-                        10,
-                );
-                const matched = [];
-
-                for (const key in playersData) {
-                        const player = playersData[key];
-                        const completed =
-                                player?.levels?.Demons ?? [];
-                        if (completed.includes(demonId)) {
-                                matched.push(player.name);
-                        }
-                }
-
-                if (matched.length === 0) {
-                        tooltip.innerText = "No victors yet.";
-                } else {
-                        tooltip.innerHTML = `
-                                <div class='text-left'>
-                                <strong>Victors:</strong><br>
-                                ${matched.map((name) => `<div>${name}</div>`).join("")}
-                                </div>`;
-                }
-
-                tooltip.setAttribute("data-loaded", true);
-                console.log("added tooltip");
-        });
+        clone.querySelector("#text-data-difficulty").textContent =
+                demon.difficulty;
+        clone.querySelector("#text-data-points").textContent =
+                `${getRoundedPoints(demon.rank - 1)} Points`;
+        clone.querySelector("#text-data-id").textContent = `ID: ${demon.id}`;
 
         if (!videoWrapper) return;
 
@@ -173,25 +150,79 @@ function renderDemon(demon, demonList) {
                 }
         });
 
-        console.log("child complete");
-
         demonList.appendChild(clone);
 }
 
-function renderPlayer(player, demonList) {
-        const points = getUserPoints(
-                player.levels?.Demons ?? [],
-        );
+function completeLevelRenderer() {
+        document.querySelectorAll(".demon-entry").forEach((clone) => {
+                clone.addEventListener("mouseover", async () => {
+                        const tooltip = clone.querySelector(".custom-tooltip");
+                        const alreadyLoaded =
+                                tooltip.getAttribute("data-loaded");
+                        if (alreadyLoaded === "true") return;
+
+                        const snapshot = await db.ref("players").once("value");
+                        const playersData = snapshot.val() || {};
+                        const demonId = parseInt(
+                                tooltip.getAttribute("data-demon-id"),
+                                10,
+                        );
+
+                        const matched = [];
+
+                        for (const key in playersData) {
+                                const player = playersData[key];
+                                const completed = player?.levels?.Demons ?? [];
+                                const completed2 =
+                                        player?.levels?.Challenges ?? [];
+                                if (completed.includes(demonId)) {
+                                        matched.push(player.name);
+                                } else if (completed2.includes(demonId)) {
+                                        matched.push(player.name);
+                                }
+                        }
+
+                        if (matched.length === 0) {
+                                tooltip.innerText = "No victors yet.";
+                        } else {
+                                tooltip.innerHTML = `
+                                        <div class='text-left'>
+                                        <strong>Victors:</strong><br>
+                                        ${matched.map((name) => `<div>${name}</div>`).join("")}
+                                        </div>`;
+                        }
+
+                        tooltip.setAttribute("data-loaded", true);
+                });
+        });
+}
+
+function renderPlayer(player, demonList, normal) {
+        let points = undefined;
+        if (normal) {
+                points = getUserPoints(player.levels?.Demons ?? [], true);
+        } else {
+                points = getUserPoints(player.levels?.Challenges ?? [], false);
+        }
+
+        console.log(getUserPoints(player.levels?.Challenges ?? [], false));
 
         if (points > 0) {
+                console.log("points are greater than 0");
                 id++;
-                const verifs =
-                        Object.keys(player.verifications ?? [])
-                                .length ?? 0;
+                let verifs = undefined;
+                if (normal) {
+                        verifs =
+                                Object.keys(player.verifications?.Demons ?? [])
+                                        .length ?? 0;
+                } else {
+                        verifs =
+                                Object.keys(
+                                        player.verifications?.Challenges ?? [],
+                                ).length ?? 0;
+                }
 
-                const tpl = document.querySelector(
-                        "#template-player-entry",
-                );
+                const tpl = document.querySelector("#template-player-entry");
                 const clone = tpl.content.cloneNode(true);
 
                 const img = clone.querySelector("img");
@@ -199,58 +230,73 @@ function renderPlayer(player, demonList) {
                         player.profile?.icon ??
                         "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
 
-                const linker =
-                        clone.querySelector("#player-linker");
+                const linker = clone.querySelector("#player-linker");
                 linker.addEventListener("click", () => {
-                        window.location.href = `/account?q=${encodeURIComponent(player.name)}#Completions`;
+                        location.href = `/account.html?q=${encodeURIComponent(player.name)}#Completions`;
                 });
 
-                const playerName =
-                        clone.querySelector("#text-playername");
+                const playerName = clone.querySelector("#text-playername");
                 playerName.innerText = `${player.name}`;
 
                 roles.forEach(({ role, idPrefix }) => {
                         if (!player.profile?.[role]) {
-                                clone.querySelector(
-                                        `#${idPrefix}`,
-                                )?.remove();
+                                clone.querySelector(`#${idPrefix}`)?.remove();
                         }
                 });
 
-                const dataPoints =
-                        clone.querySelector(
-                                "#text-data-points",
-                        );
+                const dataPoints = clone.querySelector("#text-data-points");
                 dataPoints.innerText = `${points} Points`;
 
                 const dataVerifications = clone.querySelector(
                         "#text-data-verifications",
                 );
-                dataVerifications.innerText = `${verifs} Verification${verifs === 1 ? '' : 's'}`;
+                dataVerifications.innerText = `${verifs} Verification${verifs === 1 ? "" : "s"}`;
 
                 demonList.appendChild(clone);
         }
 }
 
 function renderList() {
-        console.log("starting renderList();");
         const demonList = document.querySelector("#demonList");
 
-        demonList.innerHTML = ''
+        demonList.innerHTML = "";
 
         if (IsDemon) {
-                demons.forEach((demon, index) => {
-                        renderDemon(demon, demonList)
+                demons.forEach((demon, _) => {
+                        renderLevel(demon, demonList);
                 });
+                completeLevelRenderer();
         } else if (IsChallenges) {
-		challenges.forEach((challenge, index) => {
-                        renderDemon(challenge, demonList)
+                challenges.forEach((challenge, _) => {
+                        renderLevel(challenge, demonList);
                 });
-	} else {
-                const sortedPlayers = sortPlayersByPoints(players);
+                completeLevelRenderer();
+        } else {
+                const subNav = document
+                        .querySelector("#template-subnavbar")
+                        .content.cloneNode(true);
+                demonList.appendChild(subNav);
+
+                document.querySelector("#DemonsSelector").classList.toggle(
+                        "active",
+                        location.hash === "#leaderboard",
+                );
+                document.querySelector("#ChallengesSelector").classList.toggle(
+                        "active",
+                        location.hash === "#cleaderboard",
+                );
+
+                const sortedPlayers = sortPlayersByPoints(
+                        players,
+                        location.hash === "#leaderboard",
+                );
 
                 sortedPlayers.forEach((player, _) => {
-                        renderPlayer(player, demonList)
+                        renderPlayer(
+                                player,
+                                demonList,
+                                location.hash === "#leaderboard",
+                        );
                 });
         }
 
@@ -276,14 +322,19 @@ function updateTabUI() {
                 link.classList.remove("active");
         });
 
-        const hash = window.location.hash || "#demons";
+        const hash = location.hash || "#demons";
 
         document.querySelector(
                 `nav.demonlist-tabs a[href='/${hash}']`,
         )?.classList.add("active");
+        if (hash === "#cleaderboard") {
+                document.querySelector(
+                        "nav.demonlist-tabs a[href='/#leaderboard']",
+                )?.classList.add("active");
+        }
 
         IsDemon = hash === "#demons";
-	IsChallenges = hash === "#challenges";
+        IsChallenges = hash === "#challenges";
 
         renderList();
 }
